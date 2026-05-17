@@ -53,7 +53,7 @@ function ShopPage() {
   }, [search]);
 
   const update = (patch: Partial<typeof search>) =>
-    navigate({ search: (prev) => ({ ...prev, ...patch }) });
+    navigate({ search: (prev: typeof search) => ({ ...prev, ...patch }) });
 
   const activeCount = [search.brand, search.color, search.type, search.oem].filter(Boolean).length + (search.inStock ? 1 : 0);
 

@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { getBrand, productsByBrand, BRANDS } from "@/data/products";
+import { getBrand, productsByBrand, BRANDS, type Product } from "@/data/products";
 import { ProductCard } from "@/components/ProductCard";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/brands/$slug")({
 
 function BrandPage() {
   const { brand, products } = Route.useLoaderData();
-  const bestsellers = products.filter((p) => p.bestseller);
+  const bestsellers = (products as Product[]).filter((p) => p.bestseller);
 
   return (
     <>
@@ -42,7 +42,7 @@ function BrandPage() {
             <h1 className="text-4xl md:text-5xl font-bold">{brand.name} Toner Cartridges</h1>
             <p className="mt-3 text-white/80 text-lg max-w-2xl">{brand.description}</p>
             <div className="mt-5 flex flex-wrap gap-2">
-              {brand.popularSeries.map((s) => (
+              {brand.popularSeries.map((s: string) => (
                 <span key={s} className="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/20 px-3 py-1 text-sm">
                   <CheckCircle2 className="h-3.5 w-3.5 text-accent" /> {s}
                 </span>
@@ -61,7 +61,7 @@ function BrandPage() {
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-secondary mb-6">Best-Selling {brand.name} Cartridges</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-              {bestsellers.map((p) => <ProductCard key={p.slug} product={p} />)}
+              {bestsellers.map((p: Product) => <ProductCard key={p.slug} product={p} />)}
             </div>
           </section>
         )}
@@ -72,7 +72,7 @@ function BrandPage() {
             <div className="text-muted-foreground">No products yet. Contact us for a quote.</div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-              {products.map((p) => <ProductCard key={p.slug} product={p} />)}
+              {(products as Product[]).map((p) => <ProductCard key={p.slug} product={p} />)}
             </div>
           )}
         </section>

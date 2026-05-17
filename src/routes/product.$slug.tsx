@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
-import { getProduct, getBrand, productsByBrand } from "@/data/products";
+import { getProduct, getBrand, productsByBrand, type Product } from "@/data/products";
 import { useCart, formatAED } from "@/lib/cart";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { Button } from "@/components/ui/button";
@@ -123,7 +123,7 @@ function ProductPage() {
           <div className="mt-6 rounded-lg border border-border bg-card p-4">
             <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Compatible Printers</div>
             <div className="flex flex-wrap gap-1.5">
-              {product.compatibility.map((m) => (
+              {product.compatibility.map((m: string) => (
                 <span key={m} className="inline-block bg-muted text-secondary text-xs px-2 py-1 rounded">{m}</span>
               ))}
             </div>
@@ -204,7 +204,7 @@ function ProductPage() {
         <section className="mt-20">
           <h2 className="text-2xl font-bold text-secondary mb-6">More from {brand.name}</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            {related.map((p) => <ProductCard key={p.slug} product={p} />)}
+            {(related as Product[]).map((p) => <ProductCard key={p.slug} product={p} />)}
           </div>
         </section>
       )}
